@@ -486,6 +486,9 @@ class BrendelBethgeAttack(MinimizationAttack, ABC):
         rate_normalization = np.prod(x.shape) * (max_ - min_)
         original_shape = x.shape
         _best_advs = best_advs.numpy()
+        
+#         print(x)
+#         print(originals)
 
         for step in range(1, self.steps + 1):
             if converged.all():
@@ -498,7 +501,15 @@ class BrendelBethgeAttack(MinimizationAttack, ABC):
             # record optimal adversarials
             distances = self.norms(originals - x)
             source_norms = self.norms(originals - best_advs)
-
+                        
+            # print(source_norms)
+            ##############################################################
+            ##############################################################
+            converged += (source_norms.numpy() < 1)
+#             print(converged)
+            ##############################################################
+            ##############################################################
+            
             closer = distances < source_norms
             is_advs = logits_diffs < 0
             closer = closer.logical_and(ep.from_numpy(x, is_advs))
@@ -544,6 +555,7 @@ class BrendelBethgeAttack(MinimizationAttack, ABC):
                     deltas.append(
                         np.zeros_like(x0_np_flatten[sample])
                     )  # pragma: no cover
+#                     print("YES")
                 else:
                     _x0 = x0_np_flatten[sample]
                     _x = x_np_flatten[sample]
