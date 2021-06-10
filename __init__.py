@@ -4,7 +4,7 @@ from os.path import dirname as _dirname
 # with open(_join(_dirname(__file__), "VERSION")) as _f:
 #     __version__ = _f.read().strip()
 
-__version__ = "hk2_stop_when_eps_under_1"
+__version__ = "hk3_while_until_not_assert"
 
 # internal modules
 # ----------------
